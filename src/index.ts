@@ -1,5 +1,6 @@
 import { IApi, BundlerConfigType } from 'umi';
-import { ESBuildPlugin, ESBuildMinifyPlugin } from 'esbuild-loader';
+import { ESBuildPlugin } from 'esbuild-loader';
+import { TerserPlugin } from 'terser-webpack-plugin';
 
 export default (api: IApi) => {
   api.describe({
@@ -7,10 +8,6 @@ export default (api: IApi) => {
     config: {
       schema(joi) {
         return joi.object({
-          target: joi.alternatives(
-            joi.string(),
-            joi.array().items(joi.string()),
-          ),
           minify: joi.alternatives(
             joi.boolean(),
           ),
@@ -22,25 +19,9 @@ export default (api: IApi) => {
 
   api.modifyBundleConfig((memo, { type }) => {
     if (memo.optimization) {
-      const { target = 'esnext' } = api.config.esbuild || {};
-      const { minify = false } = api.config.esbuild || {};
-      const optsMap = {
-        [BundlerConfigType.csr]: {
-          minifyIdentifiers: minify,
-          minifyWhitespace: minify,
-          minifySyntax: minify,
-          target
-        },
-        [BundlerConfigType.ssr]: {
-          target: 'node10',
-          minifyIdentifiers: minify,
-          minifyWhitespace: minify,
-          minifySyntax: minify
-        },
-      };
-      const opts = optsMap[type] || optsMap[BundlerConfigType.csr];
+      const { minify = true } = api.config.esbuild || {};
       memo.optimization.minimize = minify;
-      memo.optimization.minimizer = [new ESBuildMinifyPlugin(opts)];
+      memo.optimization.minimizer = [new TerserPlugin()];
     }
     if (memo.plugins) {
       memo.plugins.push(new ESBuildPlugin());

@@ -28,6 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "esbuild-loader": "2.18.0"
+    "esbuild-loader": "2.18.0",
+    "terser-webpack-plugin": "5.3.1"
   }
 }
