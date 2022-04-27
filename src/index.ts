@@ -26,16 +26,20 @@ export default (api: IApi) => {
       const { minify = false } = api.config.esbuild || {};
       const optsMap = {
         [BundlerConfigType.csr]: {
-          minify,
+          minifyIdentifiers: minify,
+          minifyWhitespace: minify,
+          minifySyntax: minify,
           target
         },
         [BundlerConfigType.ssr]: {
           target: 'node10',
-          minify
+          minifyIdentifiers: minify,
+          minifyWhitespace: minify,
+          minifySyntax: minify
         },
       };
       const opts = optsMap[type] || optsMap[BundlerConfigType.csr];
-      memo.optimization.minimize = true;
+      memo.optimization.minimize = minify;
       memo.optimization.minimizer = [new ESBuildMinifyPlugin(opts)];
     }
     if (memo.plugins) {
