@@ -22,8 +22,8 @@ export default (api: IApi) => {
 
   api.modifyBundleConfig((memo, { type }) => {
     if (memo.optimization) {
-      const { target = 'es2015' } = api.config.esbuild || {};
-      const { minify = true } = api.config.esbuild || {};
+      const { target = 'esnext' } = api.config.esbuild || {};
+      const { minify = false } = api.config.esbuild || {};
       const optsMap = {
         [BundlerConfigType.csr]: {
           minify,
