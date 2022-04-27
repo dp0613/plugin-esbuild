@@ -35,7 +35,7 @@ export default (api: IApi) => {
         },
       };
       const opts = optsMap[type] || optsMap[BundlerConfigType.csr];
-      // memo.optimization.minimize = true;
+      memo.optimization.minimize = true;
       memo.optimization.minimizer = [new ESBuildMinifyPlugin(opts)];
     }
     if (memo.plugins) {
