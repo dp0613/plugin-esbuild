@@ -28,10 +28,12 @@ export default (api: IApi) => {
         [BundlerConfigType.csr]: {
           minify,
           target,
+          loader: 'jsx'
         },
         [BundlerConfigType.ssr]: {
           target: 'node10',
-          minify
+          minify,
+          loader: 'jsx'
         },
       };
       const opts = optsMap[type] || optsMap[BundlerConfigType.csr];
