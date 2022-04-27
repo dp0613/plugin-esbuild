@@ -27,13 +27,11 @@ export default (api: IApi) => {
       const optsMap = {
         [BundlerConfigType.csr]: {
           minify,
-          target,
-          exclude: 'node_modules/umi/node_modules/core-js/modules/es.number.to-fixed.js'
+          target
         },
         [BundlerConfigType.ssr]: {
           target: 'node10',
-          minify,
-          exclude: 'node_modules/umi/node_modules/core-js/modules/es.number.to-fixed.js'
+          minify
         },
       };
       const opts = optsMap[type] || optsMap[BundlerConfigType.csr];
